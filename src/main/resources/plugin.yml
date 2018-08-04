@@ -1,6 +1,7 @@
 name: "Havenspawns"
 version: "1.0.0"
 main: "me.tylergrissom.havenspawns.HavenspawnsPlugin"
+api-version: "1.13"
 
 description: "Limits mob spawns near players"
 authors: ["Tyler Grissom"]
