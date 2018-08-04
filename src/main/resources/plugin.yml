@@ -6,3 +6,21 @@ api-version: "1.13"
 description: "Limits mob spawns near players"
 authors: ["Tyler Grissom"]
 website: "https://tyler-g.net"
+
+commands:
+  havenspawns:
+    description: "Reload Havenspawns or view if a player had capped."
+
+permissions:
+  havenspawns.*:
+    description: "All permissions for Havenspawns"
+    default: op
+    children:
+      havenspawns.reload: true
+      havenspawns.check: true
+  havenspawns.reload:
+    description: "Reload Havenspawns"
+    default: op
+  havenspawns.check:
+    description: "Check if a player has capped"
+    default: op

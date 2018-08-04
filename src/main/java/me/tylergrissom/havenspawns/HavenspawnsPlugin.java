@@ -1,6 +1,7 @@
 package me.tylergrissom.havenspawns;
 
 import lombok.Getter;
+import me.tylergrissom.havenspawns.command.HavenspawnsCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,15 +17,21 @@ public class HavenspawnsPlugin extends JavaPlugin {
     @Getter
     private HavenspawnsPlugin plugin;
 
+    @Getter
+    private HavenspawnsController controller;
+
     @Override
     public void onEnable() {
         plugin = this;
+        controller = new HavenspawnsController(this);
 
         if (!new File(getDataFolder(), "config.yml").exists()) {
             Bukkit.getLogger().log(Level.INFO, "Config not found. Regenerating...");
 
             saveDefaultConfig();
         }
+
+        getCommand("havenspawns").setExecutor(new HavenspawnsCommand(this));
     }
 
     @Override
