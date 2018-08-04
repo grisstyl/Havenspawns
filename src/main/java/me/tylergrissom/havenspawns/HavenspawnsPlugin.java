@@ -32,6 +32,12 @@ public class HavenspawnsPlugin extends JavaPlugin {
             saveDefaultConfig();
         }
 
+        if (!new File(getDataFolder(), "messages.yml").exists()) {
+            Bukkit.getLogger().log(Level.INFO, "Messages not found. Regenerating...");
+
+            getController().getMessages().saveDefaults();
+        }
+
         getCommand("havenspawns").setExecutor(new HavenspawnsCommand(this));
 
         Bukkit.getPluginManager().registerEvents(new EntityListener(this), this);

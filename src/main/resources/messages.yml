@@ -1,0 +1,14 @@
+error:
+  no_permission: "&cYou don't have permission to do that!"
+  target_offline: "&cThat player is not online!"
+
+command:
+  help:
+    - "/havenspawns Help"
+    - "  /havenspawns reload - Reloads the plugin"
+    - "  /havenspawns check <player> - Check if a player has reached the cap"
+  reloaded: "Configuration reloaded."
+  failed_reload: "&cCould not reload config. Error has been logged to console."
+  check:
+    - "Friendly: %nearby_friendly%/%friendly_cap% (%world_friendly% in world)"
+    - "Hostile: %nearby_hostile%/%hostile_cap% (%world_hostile% in world)"

@@ -4,12 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.tylergrissom.havenspawns.HavenspawnsController;
 import me.tylergrissom.havenspawns.HavenspawnsPlugin;
+import me.tylergrissom.havenspawns.config.MessagesYaml;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Copyright Tyler Grissom 2018
@@ -23,11 +26,8 @@ public class HavenspawnsCommand extends CommandBase {
     @Override
     void execute(CommandSender sender, Command command, String[] args) {
         HavenspawnsController controller = getPlugin().getController();
-        String[] help = {
-                "/havenspawns Help",
-                "  /havenspawns reload - Reloads the plugin",
-                "  /havenspawns check <player> - Check if a player has reached the cap"
-        };
+        MessagesYaml messages = controller.getMessages();
+        String[] help = messages.getMessages("command.help");
 
         if (args.length == 0) {
             sender.sendMessage(help);
@@ -36,14 +36,15 @@ public class HavenspawnsCommand extends CommandBase {
 
             if (sub.equalsIgnoreCase("reload")) {
                 if (!sender.hasPermission(new Permission("havenspawns.reload"))) {
-                    sender.sendMessage(ChatColor.RED + "You don't have permission to do this!");
+                    sender.sendMessage(messages.getMessage("error.no_permission"));
                 } else {
                     try {
                         getPlugin().reloadConfig();
+                        getPlugin().getController().getMessages().reload();
 
-                        sender.sendMessage("Config reloaded.");
+                        sender.sendMessage(messages.getMessage("command.reloaded"));
                     } catch (Exception exception) {
-                        sender.sendMessage(ChatColor.RED + "Could not reload config. Error has been logged to console.");
+                        sender.sendMessage(messages.getMessage("command.failed_reload"));
 
                         exception.printStackTrace();
                     }
@@ -55,10 +56,18 @@ public class HavenspawnsCommand extends CommandBase {
                     Player target = Bukkit.getPlayer(args[1]);
 
                     if (target == null) {
-                        sender.sendMessage(ChatColor.RED + "That player is not online!");
+                        sender.sendMessage(messages.getMessage("error.target_offline"));
                     } else {
-                        sender.sendMessage("Friendly: " + controller.getNearbyFriendlyEntities(target).size() + "/" + controller.getFriendlyCap() + " (" + controller.getWorldFriendlyEntities(target.getWorld()).size() + " in world)");
-                        sender.sendMessage("Hostile: " + controller.getNearbyHostileEntities(target).size() + "/" + controller.getHostileCap() + " (" + controller.getWorldHostileEntities(target.getWorld()).size() + " in world)");
+                        Map<String, String> replaceSet = new HashMap<>();
+
+                        replaceSet.put("nearby_friendly", String.valueOf(controller.getNearbyFriendlyEntities(target).size()));
+                        replaceSet.put("friendly_cap", String.valueOf(controller.getFriendlyCap()));
+                        replaceSet.put("world_friendly", String.valueOf(controller.getWorldFriendlyEntities(target.getWorld()).size()));
+                        replaceSet.put("nearby_hostile", String.valueOf(controller.getNearbyHostileEntities(target).size()));
+                        replaceSet.put("hostile_cap", String.valueOf(controller.getHostileCap()));
+                        replaceSet.put("world_hostile", String.valueOf(controller.getWorldHostileEntities(target.getWorld()).size()));
+
+                        sender.sendMessage(messages.getMessages("command.check", replaceSet));
                     }
                 }
             } else {

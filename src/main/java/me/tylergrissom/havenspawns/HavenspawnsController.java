@@ -1,6 +1,7 @@
 package me.tylergrissom.havenspawns;
 
 import lombok.Getter;
+import me.tylergrissom.havenspawns.config.MessagesYaml;
 import org.bukkit.World;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.LivingEntity;
@@ -20,10 +21,14 @@ public class HavenspawnsController {
     private HavenspawnsPlugin plugin;
 
     @Getter
+    private MessagesYaml messages;
+
+    @Getter
     private List<UUID> spawnerMobs;
 
     public HavenspawnsController(HavenspawnsPlugin plugin) {
         this.plugin = plugin;
+        this.messages = new MessagesYaml(this);
         this.spawnerMobs = new ArrayList<>();
     }
 
