@@ -2,6 +2,7 @@ package me.tylergrissom.havenspawns;
 
 import lombok.Getter;
 import me.tylergrissom.havenspawns.command.HavenspawnsCommand;
+import me.tylergrissom.havenspawns.listener.EntityListener;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,6 +33,8 @@ public class HavenspawnsPlugin extends JavaPlugin {
         }
 
         getCommand("havenspawns").setExecutor(new HavenspawnsCommand(this));
+
+        Bukkit.getPluginManager().registerEvents(new EntityListener(this), this);
     }
 
     @Override

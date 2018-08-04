@@ -1,6 +1,5 @@
 package me.tylergrissom.havenspawns;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.World;
 import org.bukkit.entity.Animals;
@@ -10,21 +9,31 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Copyright Tyler Grissom 2018
  */
-@AllArgsConstructor
 public class HavenspawnsController {
 
     @Getter
     private HavenspawnsPlugin plugin;
+
+    @Getter
+    private List<UUID> spawnerMobs;
+
+    public HavenspawnsController(HavenspawnsPlugin plugin) {
+        this.plugin = plugin;
+        this.spawnerMobs = new ArrayList<>();
+    }
 
     public List<LivingEntity> getNearbyEntities(Player player) {
         World world = player.getWorld();
         List<LivingEntity> entities = new ArrayList<>();
 
         for (LivingEntity entity : world.getLivingEntities()) {
+            if (getSpawnerMobs().contains(entity.getUniqueId())) continue;
+
             if (entity.getLocation().distance(player.getLocation()) <= getRange()) {
                 entities.add(entity);
             }
