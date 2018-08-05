@@ -2,6 +2,7 @@ name: "Havenspawns"
 version: "1.0.0"
 main: "me.tylergrissom.havenspawns.HavenspawnsPlugin"
 api-version: "1.13"
+softdepend: ["MythicMobs"]
 
 description: "Limits mob spawns near players"
 authors: ["Tyler Grissom"]
@@ -18,9 +19,13 @@ permissions:
     children:
       havenspawns.reload: true
       havenspawns.check: true
+      havenspawns.metrics: true
   havenspawns.reload:
     description: "Reload Havenspawns"
     default: op
   havenspawns.check:
     description: "Check if a player has capped"
+    default: op
+  havenspawns.metrics:
+    description: "View plugin metrics"
     default: op

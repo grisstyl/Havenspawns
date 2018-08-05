@@ -24,12 +24,12 @@ public class HavenspawnsController {
     private MessagesYaml messages;
 
     @Getter
-    private List<UUID> spawnerMobs;
+    private List<UUID> excludedMobs;
 
     public HavenspawnsController(HavenspawnsPlugin plugin) {
         this.plugin = plugin;
         this.messages = new MessagesYaml(this);
-        this.spawnerMobs = new ArrayList<>();
+        this.excludedMobs = new ArrayList<>();
     }
 
     public List<LivingEntity> getNearbyEntities(Player player) {
@@ -37,7 +37,7 @@ public class HavenspawnsController {
         List<LivingEntity> entities = new ArrayList<>();
 
         for (LivingEntity entity : world.getLivingEntities()) {
-            if (getSpawnerMobs().contains(entity.getUniqueId())) continue;
+            if (getExcludedMobs().contains(entity.getUniqueId())) continue;
 
             if (entity.getLocation().distance(player.getLocation()) <= getRange()) {
                 entities.add(entity);

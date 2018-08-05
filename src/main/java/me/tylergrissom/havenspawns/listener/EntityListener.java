@@ -27,7 +27,7 @@ public class EntityListener implements Listener {
         HavenspawnsController controller = getPlugin().getController();
 
         if (event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.SPAWNER)) {
-            controller.getSpawnerMobs().add(event.getEntity().getUniqueId());
+            controller.getExcludedMobs().add(event.getEntity().getUniqueId());
 
             return;
         }
@@ -54,8 +54,8 @@ public class EntityListener implements Listener {
     public void onDeath(final EntityDeathEvent event) {
         HavenspawnsController controller = getPlugin().getController();
 
-        if (controller.getSpawnerMobs().contains(event.getEntity().getUniqueId())) {
-            controller.getSpawnerMobs().remove(event.getEntity().getUniqueId());
+        if (controller.getExcludedMobs().contains(event.getEntity().getUniqueId())) {
+            controller.getExcludedMobs().remove(event.getEntity().getUniqueId());
         }
     }
 }

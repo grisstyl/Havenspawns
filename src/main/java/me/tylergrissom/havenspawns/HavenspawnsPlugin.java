@@ -3,6 +3,8 @@ package me.tylergrissom.havenspawns;
 import lombok.Getter;
 import me.tylergrissom.havenspawns.command.HavenspawnsCommand;
 import me.tylergrissom.havenspawns.listener.EntityListener;
+import me.tylergrissom.havenspawns.listener.MythicMobsListener;
+import me.tylergrissom.havenspawns.task.CleanupTask;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -37,6 +39,16 @@ public class HavenspawnsPlugin extends JavaPlugin {
 
             getController().getMessages().saveDefaults();
         }
+
+        if (Bukkit.getPluginManager().getPlugin("MythicMobs") != null) {
+            Bukkit.getLogger().log(Level.INFO, "MythicMobs found. Compatibility enabled.");
+
+            Bukkit.getPluginManager().registerEvents(new MythicMobsListener(this), this);
+        } else {
+            Bukkit.getLogger().log(Level.INFO, "MythicMobs not found. Compatibility will not be enabled.");
+        }
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new CleanupTask(this), 0, 20);
 
         getCommand("havenspawns").setExecutor(new HavenspawnsCommand(this));
 

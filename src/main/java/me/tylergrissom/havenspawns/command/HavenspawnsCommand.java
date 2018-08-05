@@ -50,25 +50,40 @@ public class HavenspawnsCommand extends CommandBase {
                     }
                 }
             } else if (sub.equalsIgnoreCase("check")) {
-                if (args.length == 1) {
-                    sender.sendMessage(help);
+                if (!sender.hasPermission(new Permission("havenspawns.check"))) {
+                    sender.sendMessage(messages.getMessage("error.no_permission"));
                 } else {
-                    Player target = Bukkit.getPlayer(args[1]);
-
-                    if (target == null) {
-                        sender.sendMessage(messages.getMessage("error.target_offline"));
+                    if (args.length == 1) {
+                        sender.sendMessage(help);
                     } else {
-                        Map<String, String> replaceSet = new HashMap<>();
+                        Player target = Bukkit.getPlayer(args[1]);
 
-                        replaceSet.put("nearby_friendly", String.valueOf(controller.getNearbyFriendlyEntities(target).size()));
-                        replaceSet.put("friendly_cap", String.valueOf(controller.getFriendlyCap()));
-                        replaceSet.put("world_friendly", String.valueOf(controller.getWorldFriendlyEntities(target.getWorld()).size()));
-                        replaceSet.put("nearby_hostile", String.valueOf(controller.getNearbyHostileEntities(target).size()));
-                        replaceSet.put("hostile_cap", String.valueOf(controller.getHostileCap()));
-                        replaceSet.put("world_hostile", String.valueOf(controller.getWorldHostileEntities(target.getWorld()).size()));
+                        if (target == null) {
+                            sender.sendMessage(messages.getMessage("error.target_offline"));
+                        } else {
+                            Map<String, String> replaceSet = new HashMap<>();
 
-                        sender.sendMessage(messages.getMessages("command.check", replaceSet));
+                            replaceSet.put("nearby_friendly", String.valueOf(controller.getNearbyFriendlyEntities(target).size()));
+                            replaceSet.put("friendly_cap", String.valueOf(controller.getFriendlyCap()));
+                            replaceSet.put("world_friendly", String.valueOf(controller.getWorldFriendlyEntities(target.getWorld()).size()));
+                            replaceSet.put("nearby_hostile", String.valueOf(controller.getNearbyHostileEntities(target).size()));
+                            replaceSet.put("hostile_cap", String.valueOf(controller.getHostileCap()));
+                            replaceSet.put("world_hostile", String.valueOf(controller.getWorldHostileEntities(target.getWorld()).size()));
+
+                            sender.sendMessage(messages.getMessages("command.check", replaceSet));
+                        }
                     }
+                }
+            } else if (sub.equalsIgnoreCase("metrics")) {
+                if (!sender.hasPermission(new Permission("havenspawns.metrics"))) {
+                    sender.sendMessage(controller.getMessages().getMessage("error.no_permission"));
+                } else {
+                    String[] metrics = new String[] {
+                            "Havenspawns metrics",
+                            "Excluded mobs (" + controller.getExcludedMobs().size() + "): " + controller.getExcludedMobs()
+                    };
+
+                    sender.sendMessage(metrics);
                 }
             } else {
                 sender.sendMessage(help);

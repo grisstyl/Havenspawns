@@ -7,6 +7,7 @@ command:
     - "/havenspawns Help"
     - "  /havenspawns reload - Reloads the plugin"
     - "  /havenspawns check <player> - Check if a player has reached the cap"
+    - "  /havenspawns metrics - View plugin metrics"
   reloaded: "Configuration reloaded."
   failed_reload: "&cCould not reload config. Error has been logged to console."
   check:
