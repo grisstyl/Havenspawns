@@ -1,6 +1,7 @@
 package me.tylergrissom.havenspawns;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.tylergrissom.havenspawns.config.MessagesYaml;
 import org.bukkit.World;
 import org.bukkit.entity.Animals;
@@ -23,7 +24,7 @@ public class HavenspawnsController {
     @Getter
     private MessagesYaml messages;
 
-    @Getter
+    @Getter @Setter
     private List<UUID> excludedMobs;
 
     public HavenspawnsController(HavenspawnsPlugin plugin) {

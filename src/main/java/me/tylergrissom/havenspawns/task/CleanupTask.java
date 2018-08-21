@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -22,8 +23,11 @@ public class CleanupTask extends BukkitRunnable {
     @Override
     public void run() {
         HavenspawnsController controller = getPlugin().getController();
+        ArrayList<UUID> excludedMobs = new ArrayList<>();
 
-        for (UUID uuid : controller.getExcludedMobs()) {
+        excludedMobs.addAll(controller.getExcludedMobs());
+
+        for (UUID uuid : excludedMobs) {
             Entity entity = Bukkit.getEntity(uuid);
 
             if (entity == null || Bukkit.getEntity(uuid).isDead()) {

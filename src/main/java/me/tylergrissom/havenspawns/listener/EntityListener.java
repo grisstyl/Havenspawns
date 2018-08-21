@@ -25,15 +25,14 @@ public class EntityListener implements Listener {
     @EventHandler
     public void onSpawn(final CreatureSpawnEvent event) {
         HavenspawnsController controller = getPlugin().getController();
+        World world = event.getEntity().getWorld();
+        List<Player> players = world.getPlayers();
 
         if (event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.SPAWNER)) {
             controller.getExcludedMobs().add(event.getEntity().getUniqueId());
 
             return;
         }
-
-        World world = event.getEntity().getWorld();
-        List<Player> players = world.getPlayers();
 
         for (Player player : players) {
             if (controller.isFriendly(event.getEntity())) {
